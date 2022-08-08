@@ -128,6 +128,9 @@ curl --location --request GET 'http://localhost:8083/connectors/sink-test-connec
 curl --location --request DELETE 'http://localhost:8083/connectors/source-test-connector'
 curl --location --request DELETE 'http://localhost:8083/connectors/sink-test-connector'
 
+## kafka Topic 목록확인 (cli)
+kafka-topics.sh --list --bootstrap-server localhost:9092
+
 ## kafka connector API 요약
 GET /connectors – returns a list with all connectors in use
 GET /connectors/{name} – returns details about a specific connector
@@ -136,5 +139,3 @@ GET /connectors/{name}/status – returns the current status of the connector �
 DELETE /connectors/{name} – deletes a connector, gracefully stopping all tasks and deleting its configuration
 GET /connector-plugins – returns a list of connector plugins installed in the Kafka Connect cluster
 ```
-
-
