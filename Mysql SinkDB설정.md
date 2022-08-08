@@ -4,9 +4,9 @@ docker exec -it mysql-sink bash
 
 mysql -u -p {password}
 
-create database testdb;
+create database sinkdb;
 
-use testdb;
+use sinkdb;
 
 CREATE TABLE accounts (
    account_id VARCHAR(255),
@@ -28,9 +28,3 @@ CREATE USER 'mysqluser'@'%' IDENTIFIED BY 'mysqlpw';
 GRANT ALL PRIVILEGES ON *.* TO 'mysqluser'@'%';
 
 FLUSH PRIVILEGES;
-
-## data 입력
-INSERT INTO accounts VALUES ("123456", "111", "Susan Cooper", "God", "2021-08-16 10:11:12");
-INSERT INTO accounts VALUES ("123457", "111", "Rick Ford", "mistakes", "2021-08-16 11:12:13");
-INSERT INTO accounts VALUES ("123458", "999", "Bradley Fine", "face", "2021-08-16 12:13:14");
-```
