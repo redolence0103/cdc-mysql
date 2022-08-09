@@ -136,8 +136,8 @@ curl --location --request POST 'http://localhost:8083/connectors' \
 ## Distributed Mode로 kafka connect 실행
 ```bash
 curl --location --request GET 'http://localhost:8083/connectors'
-curl --location --request GET 'http://localhost:8083/connectors/source-test-connector/config '--header 'Content-Type: application/json'
-curl --location --request GET 'http://localhost:8083/connectors/sink-test-connector/config '--header 'Content-Type: application/json'
+curl --location --request GET 'http://localhost:8083/connectors/source-test-connector/config' --header 'Content-Type: application/json'
+curl --location --request GET 'http://localhost:8083/connectors/sink-test-connector/config' --header 'Content-Type: application/json'
 ```
 
 ## connector 삭제
