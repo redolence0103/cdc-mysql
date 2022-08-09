@@ -19,41 +19,58 @@ docker cp confluentinc-kafka-connect-jdbc-10.2.5.zip kafka:/opt/kafka_2.13-2.8.1
 docker cp mysql-connector-java-8.0.27.jar kafka:/opt/kafka_2.13-2.8.1/connectors/
 
 ## kafka에 connector upload
-```bash
+
 ## connector package
+```bash
 docker cp debezium-connector-mysql-1.5.4.Final-plugin.tar.gz kafka:/opt/kafka_2.13-2.8.1/connectors/debezium-connector-mysql-1.5.4.Final-plugin.tar.gz
 docker cp confluentinc-kafka-connect-jdbc-10.2.5.zip kafka:/opt/kafka_2.13-2.8.1/connectors/
 docker cp mysql-connector-java-8.0.27.jar kafka:/opt/kafka_2.13-2.8.1/connectors/
-
+```
 ## docker 접속
+```bash
 docker exec -it kafka sh
-
+```
 ## 해당 파일 압축 해제 및 이동
+```bash
 cd /opt/kafka_2.13-2.8.1/connectors
 
 ** 컨테이너에 zip 명령어가 없을때는 호스트환경에서 압축을 푼다음 tar로 묶어서 upload (압축 해제된 디렉토리에서 예: tar czf ../connector.tgz .)
 unzip confluentinc-kafka-connect-jdbc-10.2.5.zip
 tar xzf debezium-connector-mysql-1.5.4.Final-plugin.tar.gz
-cp  mysql-connector-java-8.0.27.jar /opt/kafka/config/
-
+cp  mysql-connector-java-8.0.27.jar /opt/kafka_2.13-2.8.1/connectors/confluentinc-kafka-connect-jdbc-10.2.5
+```
 ## /opt/kafka/config/connect-distributed.properties 파일의 plugin 경로를 수정
+```bash
 sed -i "/#plugin.path=/c\plugin.path=\/opt\/kafka_2.13-2.8.1\/connectors" /opt/kafka/config/connect-distributed.properties
+```
 
 ## docker 재실행 (호스트 shell)
+```bash
 docker restart kafka
+```
 
 ## docker 접속
+```bash
 docker exec -it kafka sh
+```
 
 ## Distributed Mode로 kafka connect 실행
+```bash
 /opt/kafka/bin/connect-distributed.sh /opt/kafka/config/connect-distributed.properties
+```
 
 ## connector 생성 확인
+```bash
 curl http://localhost:8083/
+```
+
 ## connector를 생성하기 앞서 설치된 플러그인 목록을 조회한다.
+```bash
 curl --location --request GET 'localhost:8083/connector-plugins'
+```
 
 ## Rest API 로 source connector 생성
+```bash
 curl --location --request POST 'http://localhost:8083/connectors' \
 --header 'Content-Type: application/json' \
 --data-raw '{
@@ -82,8 +99,10 @@ curl --location --request POST 'http://localhost:8083/connectors' \
     "transforms.addTopicPrefix.replacement":"$1"
   }
 }'
+```
 
 ## Rest API 로 sink connector 생성
+```bash
 curl --location --request POST 'http://localhost:8083/connectors' \
 --header 'Content-Type: application/json' \
 --data-raw '{
@@ -118,20 +137,28 @@ curl --location --request POST 'http://localhost:8083/connectors' \
     "transforms.TimestampConverter.field": "update_date"
   }
 }'
+```
 
 ## Distributed Mode로 kafka connect 실행
+```bash
 curl --location --request GET 'http://localhost:8083/connectors'
 curl --location --request GET 'http://localhost:8083/connectors/source-test-connector/config '--header 'Content-Type: application/json'
 curl --location --request GET 'http://localhost:8083/connectors/sink-test-connector/config '--header 'Content-Type: application/json'
+```
 
 ## connector 삭제
+```bash
 curl --location --request DELETE 'http://localhost:8083/connectors/source-test-connector'
 curl --location --request DELETE 'http://localhost:8083/connectors/sink-test-connector'
+```
 
 ## kafka Topic 목록확인 (cli)
+```bash
 kafka-topics.sh --list --bootstrap-server localhost:9092
+```
 
 ## kafka connector API 요약
+```bash
 GET /connectors – returns a list with all connectors in use
 GET /connectors/{name} – returns details about a specific connector
 POST /connectors – creates a new connector; the request body should be a JSON object containing a string name field and an object config field with the connector configuration parameters
