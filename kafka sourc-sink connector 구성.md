@@ -149,6 +149,7 @@ curl --location --request DELETE 'http://localhost:8083/connectors/sink-test-con
 ## kafka Topic 목록확인 (cli)
 ```bash
 kafka-topics.sh --list --bootstrap-server localhost:9092
+kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic dbserver1.testdb.accounts --from-beginning
 ```
 
 ## kafka connector API 요약
