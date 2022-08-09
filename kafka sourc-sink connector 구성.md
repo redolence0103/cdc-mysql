@@ -14,11 +14,11 @@
 - https://developer.confluent.io/learn-kafka/kafka-connect/rest-api/
 
 ## connector package
+```bash
 docker cp debezium-connector-mysql-1.5.4.Final-plugin.tar.gz kafka:/opt/kafka_2.13-2.8.1/connectors/debezium-connector-mysql-1.5.4.Final-plugin.tar.gz
 docker cp confluentinc-kafka-connect-jdbc-10.2.5.zip kafka:/opt/kafka_2.13-2.8.1/connectors/
 docker cp mysql-connector-java-8.0.27.jar kafka:/opt/kafka_2.13-2.8.1/connectors/
-
-## kafka에 connector upload
+```
 
 ## connector package
 ```bash
