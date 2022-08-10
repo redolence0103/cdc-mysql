@@ -161,3 +161,11 @@ GET /connectors/{name}/status – returns the current status of the connector �
 DELETE /connectors/{name} – deletes a connector, gracefully stopping all tasks and deleting its configuration
 GET /connector-plugins – returns a list of connector plugins installed in the Kafka Connect cluster
 ```
+## LEADER_NOT_AVAILABLE Error 발생시
+$ kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic dbserver1.testdb.accounts --from-beginning
+...
+Error while fetching metadata with correlation id 2 : {dbserver1.testdb.accounts=LEADER_NOT_AVAILABLE}
+...
+```bash
+cd /opt/kafka/config
+sed -i "/#advertised.listeners/c\advertised.listeners=PLAINTEXT://localhost:9092" server.properties
